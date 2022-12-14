@@ -1,17 +1,17 @@
 package com.example.micropet
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.example.micropet.databinding.FragmentPetRoomBinding
 
 
 class PetRoomFragment : Fragment() {
     lateinit var binding: FragmentPetRoomBinding
+    lateinit var imageView: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +28,7 @@ class PetRoomFragment : Fragment() {
     }
 
     private fun init(){
-
+        imageView = binding.imageView
     }
 
     private fun bind(){
@@ -41,12 +41,15 @@ class PetRoomFragment : Fragment() {
             val currentY = binding.imageView.y
             // Get the width of the screen
             val screenWidth = Resources.getSystem().displayMetrics.widthPixels
-            TODO("Запиши это все в заметки и придумай как реализовать")
+
             binding.imageView.animate()
                 .x(screenWidth - imageView.width.toFloat())
                 .setDuration(1000)
                 .start()
         }
+
+
+
     }
 
     companion object {
