@@ -13,12 +13,24 @@
         <action
             android:id="@+id/action_mainFragment_to_selectPetFragment"
             app:destination="@id/selectPetFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_petRoomFragment"
+            app:destination="@id/petRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectPetFragment"
         android:name="com.example.micropet.SelectPetFragment"
         android:label="fragment_select_pet"
         tools:layout="@layout/fragment_select_pet" >
+        <argument
+            android:name="DataTransferArg"
+            android:defaultValue="null1" />
+    </fragment>
+    <fragment
+        android:id="@+id/petRoomFragment"
+        android:name="com.example.micropet.PetRoomFragment"
+        android:label="fragment_pet_room"
+        tools:layout="@layout/fragment_pet_room" >
         <argument
             android:name="DataTransferArg"
             android:defaultValue="null1" />

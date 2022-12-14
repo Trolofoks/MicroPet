@@ -21,7 +21,8 @@ class MainFragment : Fragment(), PetAdapter.Listener {
     lateinit var database: MainDatabase
     lateinit var petsArrayList: ArrayList<PetModel>
     private var editMode: Boolean = false
-    var lastSelectPosition: Int? = null
+    var lastSelectPet: PetModel? = null
+    lateinit var bundle: Bundle
 
 
     override fun onCreateView(
@@ -46,6 +47,7 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         adapter = PetAdapter(this)
         database = MainDatabase.getDatabase(requireContext())
         petsArrayList = arrayListOf()
+        bundle = Bundle()
     }
 
     private fun bind(){
@@ -60,6 +62,17 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         binding.cardViewButton.setOnLongClickListener{
             Toast.makeText(requireContext(), "123", Toast.LENGTH_SHORT).show()
             true
+        }
+        binding.buttonDelete.setOnClickListener{
+            if (lastSelectPet != null){
+                Thread{
+                    database.getDao().deleteItem(lastSelectPet!!)
+                }.start()
+                editModeActivator(false, null)
+            }
+        }
+        binding.buttonCancel.setOnClickListener{
+            editModeActivator(false,null)
         }
     }
 
@@ -77,17 +90,17 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         binding.cardViewButton.visibility = View.GONE
     }
 
-    private fun editModeActivator(name: String){
+    private fun editModeActivator(activate: Boolean, pet: PetModel?){
+        editMode = activate
+        lastSelectPet = pet
         if (editMode){
             binding.cardViewEdit.visibility = View.VISIBLE
-            val newName = getText(R.string.name).toString() + name
+            val newName = getText(R.string.name).toString() + pet!!.name
             binding.textEditName.text = newName
-            if (lastSelectPosition != null){
-                //здесь доделать
-            }
+
         } else {
             binding.cardViewEdit.visibility = View.GONE
-            lastSelectPosition = null
+            lastSelectPet = null
         }
     }
 
@@ -98,12 +111,13 @@ class MainFragment : Fragment(), PetAdapter.Listener {
 
     override fun onClick(position: Int) {
         Toast.makeText(requireContext(), "$position", Toast.LENGTH_SHORT).show()
+        val pet = petsArrayList[position]
+        bundle.putSerializable("Key", pet)
+        controller.navigate(R.id.petRoomFragment)
     }
 
     override fun onLongClick(position: Int) {
         Toast.makeText(requireContext(), "hello $position", Toast.LENGTH_SHORT).show()
-        editMode = !editMode
-        lastSelectPosition = position
-        editModeActivator(petsArrayList[position].name)
+        editModeActivator(true, petsArrayList[position])
     }
 }

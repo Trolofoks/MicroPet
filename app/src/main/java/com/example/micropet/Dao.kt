@@ -13,5 +13,6 @@ interface Dao {
     fun insertPet(item: PetModel)
     @Query("SELECT * FROM pets")
     fun getAllPets(): Flow<List<PetModel>>
-
+    @Delete
+    fun deleteItem(item: PetModel)
 }

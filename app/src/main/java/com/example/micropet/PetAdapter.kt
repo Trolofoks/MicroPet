@@ -3,6 +3,7 @@ package com.example.micropet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,8 @@ class PetAdapter(private val listener: Listener) : ListAdapter<PetModel, PetAdap
             }
             itemView.setOnLongClickListener{
                 listener.onLongClick(adapterPosition)
+                val shake = AnimationUtils.loadAnimation(itemView.context, R.anim.shake_anim)
+                itemView.startAnimation(shake)
                 true
             }
         }
