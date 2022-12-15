@@ -1,18 +1,20 @@
 package com.example.micropet
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.micropet.databinding.FragmentMainBinding
+
 
 class MainFragment : Fragment(), PetAdapter.Listener {
     lateinit var binding: FragmentMainBinding
@@ -23,6 +25,7 @@ class MainFragment : Fragment(), PetAdapter.Listener {
     private var editMode: Boolean = false
     var lastSelectPet: PetModel? = null
     lateinit var bundle: Bundle
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
 
     override fun onCreateView(
@@ -42,13 +45,24 @@ class MainFragment : Fragment(), PetAdapter.Listener {
 
 
 
+
     private fun init(){
         controller = findNavController()
         adapter = PetAdapter(this)
         database = MainDatabase.getDatabase(requireContext())
         petsArrayList = arrayListOf()
         bundle = Bundle()
+
     }
+
+    private fun checkPermission(){
+        if (!Settings.canDrawOverlays(requireContext())) {
+            val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            startActivity(myIntent)
+        }
+    }
+
+
 
     private fun bind(){
         binding.cardViewButton.setOnClickListener {
@@ -74,6 +88,15 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         binding.buttonCancel.setOnClickListener{
             editModeActivator(false,null)
         }
+        binding.buttonUsePet.setOnClickListener{
+            checkPermission()
+            summonPet()
+        }
+    }
+
+    private fun summonPet(){
+        val service = Intent(requireContext(), OverlayPet::class.java)
+        requireActivity().startService(service)
     }
 
     private fun getPetsFromDatabase(){
@@ -113,7 +136,12 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         Toast.makeText(requireContext(), "$position", Toast.LENGTH_SHORT).show()
         val pet = petsArrayList[position]
         bundle.putSerializable("Key", pet)
-        controller.navigate(R.id.petRoomFragment)
+        if (editMode){
+
+        } else {
+            controller.navigate(R.id.petRoomFragment)
+        }
+
     }
 
     override fun onLongClick(position: Int) {

@@ -121,25 +121,25 @@
                 app:layout_constraintTop_toBottomOf="@+id/textEditName">
 
                 <ImageButton
-                    android:id="@+id/buttonNotAdd"
+                    android:id="@+id/buttonUsePet"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="15dp"
                     android:background="@null"
                     android:minHeight="70dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_save" />
+                    android:src="@drawable/ic_show_pet" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textIconTitleSomething"
+                        android:id="@+id/textIconUsePet"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Some"
+                        android:text="Invite"
                         android:textColor="@color/text_light_gray"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"

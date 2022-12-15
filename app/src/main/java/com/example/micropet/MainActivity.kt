@@ -1,26 +1,28 @@
 package com.example.micropet
 
-import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toolbar
-import androidx.annotation.MenuRes
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.SupportMenuInflater
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.micropet.databinding.ActivityMainBinding
-import java.security.AccessController.getContext
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var controller: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +30,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         init()
         enableToolBar()
-
     }
 
     private fun init(){
         controller = findNavController(R.id.fragmentContainerView)
+
     }
 
     private fun enableToolBar(){
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         val config = AppBarConfiguration(controller.graph)
         setupActionBarWithNavController(controller)
     }
+
+
 
     //подключает стрелку
     override fun onSupportNavigateUp(): Boolean {

@@ -1,10 +1,15 @@
 package com.example.micropet
 
-import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.example.micropet.databinding.FragmentPetRoomBinding
 
@@ -25,6 +30,7 @@ class PetRoomFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         bind()
+        stickMind()
     }
 
     private fun init(){
@@ -47,10 +53,50 @@ class PetRoomFragment : Fragment() {
                 .setDuration(1000)
                 .start()
         }
-
-
+        binding.button3.setOnClickListener {
+            gravity()
+        }
 
     }
+    private fun stickMind(){
+        movable(binding.imageView)
+    }
+
+    private fun movable(view: View){
+        view.setOnTouchListener(object : View.OnTouchListener {
+            var dX = 0f
+            var dY = 0f
+
+            override fun onTouch(view: View, event: MotionEvent): Boolean {
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        dX = view.x - event.rawX
+                        dY = view.y - event.rawY
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        view.animate()
+                            .x(event.rawX + dX)
+                            .y(event.rawY + dY)
+                            .setDuration(0)
+                            .start()
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        view.x = event.rawX + dX
+                        view.y = event.rawY + dY
+                    }
+                    else -> return false
+                }
+                return true
+            }
+        })
+    }
+    private fun autoGravity(){
+        gravity()
+    }
+    private fun gravity() {
+    }
+
+
 
     companion object {
 
