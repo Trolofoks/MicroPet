@@ -1,8 +1,10 @@
 package com.example.micropet
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +15,13 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import com.example.micropet.databinding.FragmentMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainFragment : Fragment(), PetAdapter.Listener {
@@ -79,8 +87,10 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         }
         binding.buttonDelete.setOnClickListener{
             if (lastSelectPet != null){
+                //этот тред происходит позже чем то что ниже поэтому сюда клонируем элемент
+                val pet = lastSelectPet
                 Thread{
-                    database.getDao().deleteItem(lastSelectPet!!)
+                    database.getDao().deleteItem(pet!!)
                 }.start()
                 editModeActivator(false, null)
             }
@@ -137,7 +147,7 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         val pet = petsArrayList[position]
         bundle.putSerializable("Key", pet)
         if (editMode){
-
+            editModeActivator(true, petsArrayList[position])
         } else {
             controller.navigate(R.id.petRoomFragment)
         }

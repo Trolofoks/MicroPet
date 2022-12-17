@@ -15,6 +15,7 @@ class PetAdapter(private val listener: Listener) : ListAdapter<PetModel, PetAdap
         private val binding = PetItemBinding.bind(item)
 
         fun bind(pet: PetModel){
+            val shake = AnimationUtils.loadAnimation(itemView.context, R.anim.shake_anim)
             binding.imagePetList.setImageResource(pet.imageId)
             binding.textPetName.text = if (pet.name.length > 50){
                 pet.name.substring(0, 49)
@@ -23,13 +24,14 @@ class PetAdapter(private val listener: Listener) : ListAdapter<PetModel, PetAdap
             }
             itemView.setOnClickListener{
                 listener.onClick(adapterPosition)
+                itemView.startAnimation(shake)
             }
             itemView.setOnLongClickListener{
                 listener.onLongClick(adapterPosition)
-                val shake = AnimationUtils.loadAnimation(itemView.context, R.anim.shake_anim)
                 itemView.startAnimation(shake)
                 true
             }
+
         }
     }
 
