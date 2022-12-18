@@ -1,10 +1,8 @@
-package com.example.micropet
+package com.example.micropet.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +13,12 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import com.example.micropet.service.OverlayPet
+import com.example.micropet.adapter.PetAdapter
+import com.example.micropet.R
+import com.example.micropet.data.MainDatabase
+import com.example.micropet.data.PetModel
 import com.example.micropet.databinding.FragmentMainBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MainFragment : Fragment(), PetAdapter.Listener {
@@ -49,6 +46,7 @@ class MainFragment : Fragment(), PetAdapter.Listener {
         init()
         bind()
         getPetsFromDatabase()
+        summonPet()
     }
 
 

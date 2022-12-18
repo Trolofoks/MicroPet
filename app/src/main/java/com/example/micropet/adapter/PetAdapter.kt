@@ -1,4 +1,4 @@
-package com.example.micropet
+package com.example.micropet.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +7,13 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.micropet.R
+import com.example.micropet.data.PetModel
 import com.example.micropet.databinding.PetItemBinding
 
-class PetAdapter(private val listener: Listener) : ListAdapter<PetModel, PetAdapter.PetHolder>(Comparator()) {
+class PetAdapter(private val listener: Listener) : ListAdapter<PetModel, PetAdapter.PetHolder>(
+    Comparator()
+) {
     private val petList = ArrayList<PetModel>()
     class PetHolder(item: View, private val listener: Listener):RecyclerView.ViewHolder(item){
         private val binding = PetItemBinding.bind(item)

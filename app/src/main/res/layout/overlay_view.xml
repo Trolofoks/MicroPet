@@ -4,11 +4,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/image_view"
+        android:id="@+id/imagePets"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/stick" />
+        android:background="@drawable/stick"
+        android:scaleType="fitXY" />
 
 </FrameLayout>

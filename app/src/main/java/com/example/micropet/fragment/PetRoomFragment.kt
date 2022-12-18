@@ -1,16 +1,10 @@
-package com.example.micropet
+package com.example.micropet.fragment
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import com.example.micropet.R
 import com.example.micropet.databinding.FragmentPetRoomBinding
 
 

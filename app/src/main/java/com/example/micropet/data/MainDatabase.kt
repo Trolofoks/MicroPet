@@ -1,4 +1,4 @@
-package com.example.micropet
+package com.example.micropet.data
 
 import android.content.Context
 import androidx.room.Database
@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
 abstract class MainDatabase : RoomDatabase() {
     abstract fun getDao(): Dao
     companion object{
-        fun getDatabase(context: Context): MainDatabase{
+        fun getDatabase(context: Context): MainDatabase {
             return Room.databaseBuilder(
                 context.applicationContext,
                 MainDatabase::class.java,
